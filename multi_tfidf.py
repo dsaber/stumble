@@ -12,6 +12,7 @@ from scipy.sparse import hstack
 from scipy.sparse import csr_matrix
 from scipy.sparse import coo_matrix 
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 
 import json 
 
@@ -98,7 +99,7 @@ if __name__ == "__main__":
 		if type(X[col][0]) == np.float_ or type(X[col][0]) == np.int_:
 			safe_cols.append(col)
 	print safe_cols 
-	sv = LogisticRegression() 
+	sv = RandomForestClassifier(n_estimators=100, n_jobs=-1)
 	scores = cross_validation.cross_val_score(sv, X[safe_cols], Y, cv=5, scoring="roc_auc", verbose=5)
 	print "Accuracy: " + str(np.mean(scores))
 
