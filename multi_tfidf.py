@@ -11,6 +11,7 @@ from scipy.sparse import vstack
 from scipy.sparse import hstack 
 from scipy.sparse import csr_matrix
 from scipy.sparse import coo_matrix 
+from sklearn.linear_model import LogisticRegression
 
 import json 
 
@@ -86,6 +87,21 @@ if __name__ == "__main__":
 	print "Running Multinomial Naive Bayes"
 	scores = cross_validation.cross_val_score(nb, cv_mat, Y, cv=5, scoring="roc_auc", verbose=5)
 	print "Accuracy: " + str(np.mean(scores))
+
+	nb.fit(cv_mat, Y)
+	pred = nb.predict(cv_mat)
+
+
+	X["pred"] = pred
+	safe_cols = [] 
+	for col in X.columns:
+		if type(X[col][0]) == np.float_ or type(X[col][0]) == np.int_:
+			safe_cols.append(col)
+	print safe_cols 
+	sv = LogisticRegression() 
+	scores = cross_validation.cross_val_score(sv, X[safe_cols], Y, cv=5, scoring="roc_auc", verbose=5)
+	print "Accuracy: " + str(np.mean(scores))
+
 
 	# nb = MultinomialNB()
 	# print "Running Multinomial Naive Bayes"
