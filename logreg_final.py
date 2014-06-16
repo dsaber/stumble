@@ -60,7 +60,7 @@ def tfidf_and_svd(train_docs, test_docs, num, svd=True, with_options=True):
 	if svd is False:
 		return tf_mat_train, tf_mat_test
 
-	svd = TruncatedSVD(n_components=num, random_state=778)
+	svd = TruncatedSVD(n_components=num)
 
 	doc_result = svd.fit_transform(tf_mat_train)
 	test_doc_result = svd.transform(tf_mat_test)
@@ -92,7 +92,7 @@ if __name__ == "__main__":
 	print "making predictions and outputting to CSV"
 	final_predictions = pd.DataFrame(X_test["urlid"])
 	final_predictions["label"] = logreg.predict_proba(svd_test)[:, 1]
-	final_predictions.to_csv("predictions/basic_pred3.csv", index=False)
+	final_predictions.to_csv("predictions/pred.csv", index=False)
 
 
 	
