@@ -21,6 +21,7 @@ from sklearn.preprocessing import scale
 import json 
 
 
+
 def make_dummy(df, column):
 
 	dum_dum = pd.get_dummies(df[column])
